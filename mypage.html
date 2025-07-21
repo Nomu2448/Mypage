@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nonthaphat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #667eea;
+      --secondary-color: #764ba2;
+      --accent-color: #f093fb;
+      --dark-blue: #2c5364;
+      --light-blue: #0f2027;
+    }
+
+    * {
+      font-family: 'Noto Sans Thai', sans-serif;
+    }
+
+    body {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--light-blue) 0%, var(--dark-blue) 100%);
+      overflow-x: hidden;
+    }
+
+    
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 20s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    
+    .navbar {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .navbar-scrolled {
+      background: rgba(15, 32, 39, 0.95) !important;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-color) !important;
+      transform: translateY(-2px);
+    }
+
+    
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f093fb);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 4s ease-in-out infinite;
+      text-shadow: 0 4px 30px rgba(240, 147, 251, 0.3);
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease-out 0.5s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    
+    .profile-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+      border-radius: 2rem;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .profile-card:hover::before {
+      opacity: 1;
+    }
+
+    .profile-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-img {
+      width: 180px;
+      height: 180px;
+      border: 4px solid var(--accent-color);
+      box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .profile-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(240, 147, 251, 0.6);
+    }
+
+    
+    .interest-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 1.5rem;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .interest-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .interest-card img {
+      border-radius: 1.5rem 1.5rem 0 0;
+      transition: all 0.3s ease;
+    }
+
+    .interest-card:hover img {
+      transform: scale(1.05);
+    }
+
+    
+    .carousel-item img {
+      height: 400px;
+      object-fit: cover;
+      filter: brightness(0.7);
+      transition: all 0.5s ease;
+    }
+
+    .carousel-item.active img {
+      filter: brightness(1);
+    }
+
+    .carousel-caption {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    
+    .contact-item {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      color: white;
+    }
+
+    .contact-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px);
+      text-decoration: none;
+      color: white;
+    }
+
+    
+    #global-trail {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 9999;
+      overflow: visible;
+    }
+
+    .trail-dot {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(240, 147, 251, 0.8) 0%, rgba(102, 126, 234, 0.3) 60%, rgba(0,0,0,0) 100%);
+      box-shadow: 0 0 20px rgba(240, 147, 251, 0.6);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      will-change: transform, opacity;
+    }
+
+    
+    .fade-in {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+      }
+      
+      .profile-img {
+        width: 140px;
+        height: 140px;
+      }
+    }
+
+    
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--light-blue), var(--dark-blue));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid var(--accent-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="loading-overlay" id="loading">
+    <div class="loading-spinner"></div>
+  </div>
+
+  
+  <div class="particles" id="particles"></div>
+
+  
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#home">
+        <i class="bi bi-house-heart-fill me-2"></i>Home
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#about"><i class="bi bi-person-fill me-2"></i>About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#interests"><i class="bi bi-heart-fill me-2"></i>Interests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#gallery"><i class="bi bi-images me-2"></i>Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact"><i class="bi bi-envelope-fill me-2"></i>Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  
+  <section id="home" class="py-5" style="margin-top: 80px;">
+    <div class="container text-center py-5">
+      <h1 class="hero-title fade-in">Nonthaphat</h1>
+      <p class="hero-subtitle fade-in">นักศึกษาผู้หลงใหลในเทคโนโลยีและการเรียนรู้</p>
+      <div class="fade-in">
+        <a href="#about" class="btn btn-outline-light btn-lg rounded-pill px-4 py-2">
+          <i class="bi bi-arrow-down me-2"></i>เรียนรู้เพิ่มเติม
+        </a>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="about" class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="profile-card p-0 fade-in">
+            <div class="row g-0 align-items-center">
+              <div class="col-md-5 text-center text-white py-5" style="background: linear-gradient(135deg, rgba(35,37,38,0.9) 0%, rgba(65,67,69,0.9) 100%);">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSriyVmPPhG0eEHEtHDFGkJvaI0qRKU8tqU0w&s" 
+                     class="profile-img rounded-circle img-fluid mb-4" 
+                     alt="Profile Picture">
+                <h2 class="fw-bold mb-2">นายนนทพัทธ์ นะทีศรี</h2>
+                <span class="badge rounded-pill px-3 py-2 mb-3" style="background: var(--accent-color); font-size: 0.9rem;">
+                  <i class="bi bi-mortarboard-fill me-1"></i>นักศึกษา
+                </span>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                  <a href="mailto:stu6712732108@365.sskru.ac.th" class="contact-item rounded-circle p-3" title="Email">
+                    <i class="bi bi-envelope-fill fs-5"></i>
+                  </a>
+                  <a href="tel:0928716045" class="contact-item rounded-circle p-3" title="Phone">
+                    <i class="bi bi-telephone-fill fs-5"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-7 p-4 p-md-5">
+                <h4 class="mb-4" style="color: var(--accent-color);">
+                  <i class="bi bi-person-lines-fill me-2"></i>ข้อมูลส่วนตัว
+                </h4>
+                <div class="row g-3 mb-4">
+                  <div class="col-12">
+                    <div class="contact-item">
+                      <i class="bi bi-envelope-at-fill me-3" style="color: var(--accent-color);"></i>
+                      <strong>อีเมล:</strong> stu6712732108@365.sskru.ac.th
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="contact-item">
+                      <i class="bi bi-telephone-fill me-3" style="color: var(--accent-color);"></i>
+                      <strong>โทรศัพท์:</strong> 092-871-6045
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="contact-item">
+                      <i class="bi bi-geo-alt-fill me-3" style="color: var(--accent-color);"></i>
+                      <strong>ที่อยู่:</strong> มหาวิทยาลัยราชภัฏศรีสะเกษ
+                    </div>
+                  </div>
+                </div>
+                <h5 class="mb-3" style="color: rgba(255,255,255,0.8);">
+                  <i class="bi bi-chat-heart-fill me-2"></i>เกี่ยวกับฉัน
+                </h5>
+                <p class="text-white-50 mb-0" style="line-height: 1.6;">
+                  สวัสดีครับ! ผมเป็นนักศึกษาที่มีความหลงใหลในเทคโนโลยี รักการเรียนรู้สิ่งใหม่ๆ 
+                  และมีความสนใจในการพัฒนาตนเองอย่างต่อเนื่อง 🚀
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="interests" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-white mb-3 fade-in">
+          <i class="bi bi-heart-fill me-3" style="color: var(--accent-color);"></i>
+          สิ่งที่ฉันชื่นชอบ
+        </h2>
+        <p class="text-white-50 fade-in">สิ่งต่างๆ ที่ทำให้ชีวิตมีสีสันและความสุข</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-4 d-flex">
+          <div class="interest-card fade-in" style="animation-delay: 0.1s;">
+            <img src="https://hdmall.co.th/blog/wp-content/uploads/2024/04/the-danger-of-eating-durian-scaled.jpg" 
+                 class="card-img-top" alt="Durian" style="height: 200px; object-fit: cover;">
+            <div class="card-body text-center text-white p-4">
+              <h5 class="card-title mb-3" style="color: var(--accent-color);">
+                <i class="bi bi-star-fill me-2"></i>ผลไม้โปรด
+              </h5>
+              <p class="card-text">ทุเรียนเป็นผลไม้ที่ฉันชอบที่สุด รสชาติหวานหอม กลิ่นหอมเข้มข้น</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex">
+          <div class="interest-card fade-in" style="animation-delay: 0.2s;">
+            <img src="https://cdn-icons-png.flaticon.com/512/11255/11255712.png" 
+                 class="card-img-top" alt="Gaming" style="height: 200px; object-fit: cover; background: #f8f9fa; padding: 20px;">
+            <div class="card-body text-center text-white p-4">
+              <h5 class="card-title mb-3" style="color: var(--accent-color);">
+                <i class="bi bi-controller me-2"></i>งานอดิเรก
+              </h5>
+              <p class="card-text">ดูอนิเมะและเล่นเกม ช่วงเวลาแห่งการผ่อนคลายและความสนุกสนาน</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex">
+          <div class="interest-card fade-in" style="animation-delay: 0.3s;">
+            <img src="https://thumb.ac-illust.com/65/659b2edbd9479828f2731ab519ae52e3_t.jpeg" 
+                 class="card-img-top" alt="Japan" style="height: 200px; object-fit: cover;">
+            <div class="card-body text-center text-white p-4">
+              <h5 class="card-title mb-3" style="color: var(--accent-color);">
+                <i class="bi bi-airplane-fill me-2"></i>ความฝัน
+              </h5>
+              <p class="card-text">ประเทศญี่ปุ่นเป็นประเทศที่อยากไปเยือนมากที่สุด วัฒนธรรมและเทคโนโลยีที่น่าทึ่ง</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="gallery" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-white mb-3 fade-in">
+          <i class="bi bi-images me-3" style="color: var(--accent-color);"></i>
+          แกลเลอรี่ภาพ
+        </h2>
+        <p class="text-white-50 fade-in">สถานที่สวยงามที่น่าประทับใจ</p>
+      </div>
+      <div id="carouselExampleCaptions" class="carousel slide fade-in" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner rounded-3 overflow-hidden">
+          <div class="carousel-item active">
+            <img src="https://travel.mthai.com/app/uploads/2014/07/bing06.jpg" class="d-block w-100" alt="Beach">
+            <div class="carousel-caption">
+              <h5><i class="bi bi-water me-2"></i>ทะเลใสใส</h5>
+              <p>ความสวยงามของทะเลไทยที่น่าหลงใหล ธรรมชาติที่บริสุทธิ์</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.dmc.tv/wallpaper/raw/14180.jpg" class="d-block w-100" alt="Temple">
+            <div class="carousel-caption">
+              <h5><i class="bi bi-building me-2"></i>วัดโบราณ</h5>
+              <p>ความงดงามของสถาปัตยกรรมไทยที่สะท้อนถึงประวัติศาสตร์</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg" class="d-block w-100" alt="Lake">
+            <div class="carousel-caption">
+              <h5><i class="bi bi-droplet me-2"></i>ทะเลสาบ</h5>
+              <p>ความเงียบสงบและสวยงามของทะเลสาบในยามเช้า</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="contact" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-white mb-3 fade-in">
+          <i class="bi bi-envelope-heart-fill me-3" style="color: var(--accent-color);"></i>
+          ติดต่อสอบถาม
+        </h2>
+        <p class="text-white-50 fade-in">หากมีคำถามหรือต้องการติดต่อ สามารถติดต่อได้ตามช่องทางด้านล่าง</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-4">
+          <a href="mailto:stu6712732108@365.sskru.ac.th" class="contact-item text-center d-block fade-in">
+            <i class="bi bi-envelope-fill fs-1 mb-3" style="color: var(--accent-color);"></i>
+            <h5>Email</h5>
+            <p class="mb-0 small">stu6712732108@365.sskru.ac.th</p>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a href="tel:0928716045" class="contact-item text-center d-block fade-in">
+            <i class="bi bi-telephone-fill fs-1 mb-3" style="color: var(--accent-color);"></i>
+            <h5>โทรศัพท์</h5>
+            <p class="mb-0 small">092-871-6045</p>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <div class="contact-item text-center fade-in">
+            <i class="bi bi-geo-alt-fill fs-1 mb-3" style="color: var(--accent-color);"></i>
+            <h5>ที่อยู่</h5>
+            <p class="mb-0 small">มหาวิทยาลัยราชภัฏศรีสะเกษ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer class="py-4 mt-5" style="background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);">
+    <div class="container text-center">
+      <p class="text-white-50 mb-0">
+        © 2024 Nonthaphat Portfolio. Made with 
+        <i class="bi bi-heart-fill" style="color: var(--accent-color);"></i>
+      </p>
+    </div>
+  </footer>
+
+  
+  <div id="global-trail"></div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        document.getElementById('loading').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+        }, 500);
+      }, 1000);
+    });
+
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = particle.style.height = (Math.random() * 4 + 1) + 'px';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (Math.random() * 20 + 20) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+    createParticles();
+
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('mainNavbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.fade-in');
+      elements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const elementVisible = 150;
+        if (elementTop < window.innerHeight - elementVisible) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll();
+
+    var carousel = new bootstrap.Carousel(document.querySelector('#carouselExampleCaptions'), {
+      interval: 4000,
+      ride: 'carousel',
+      pause: 'hover'
+    });
+
+    var trailContainer = document.getElementById('global-trail');
+    var trailLength = 12;
+    var trailDots = [];
+    
+    for (let i = 0; i < trailLength; i++) {
+      var dot = document.createElement('div');
+      dot.className = 'trail-dot';
+      trailContainer.appendChild(dot);
+      trailDots.push({
+        el: dot, 
+        x: window.innerWidth/2, 
+        y: window.innerHeight/2, 
+        opacity: 0
+      });
+    }
+
+    let mouse = {x: window.innerWidth/2, y: window.innerHeight/2};
+    let lastMove = Date.now();
+
+    function animateTrail() {
+      let prev = mouse;
+      for (let i = 0; i < trailLength; i++) {
+        let dot = trailDots[i];
+        let speed = 0.2 + (i * 0.02);
+        dot.x += (prev.x - dot.x) * speed;
+        dot.y += (prev.y - dot.y) * speed;
+        
+        dot.el.style.transform = `translate(-50%, -50%) translate(${dot.x}px, ${dot.y}px) scale(${1 - i * 0.06})`;
+        dot.el.style.opacity = dot.opacity * (1 - i * 0.08);
+        prev = dot;
+      }
+
+      if (Date.now() - lastMove > 300) {
+        for (let i = 0; i < trailLength; i++) {
+          trailDots[i].opacity = Math.max(0, trailDots[i].opacity - 0.03);
+        }
+      }
+      requestAnimationFrame(animateTrail);
+    }
+
+    document.addEventListener('mousemove', function(e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      for (let i = 0; i < trailLength; i++) {
+        trailDots[i].opacity = 0.9;
+      }
+      lastMove = Date.now();
+    });
+
+    document.addEventListener('mouseleave', function() {
+      for (let i = 0; i < trailLength; i++) {
+        trailDots[i].opacity = 0;
+      }
+    });
+
+    document.addEventListener('mouseenter', function() {
+      for (let i = 0; i < trailLength; i++) {
+        trailDots[i].opacity = 0.9;
+      }
+    });
+
+    animateTrail();
+
+    
+    function typeWriter(element, text, speed = 50) {
+      let i = 0;
+      element.innerHTML = '';
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      setTimeout(type, 1500);
+    }
+
+    
+    window.addEventListener('load', function() {
+      const subtitle = document.querySelector('.hero-subtitle');
+      if (subtitle) {
+        const originalText = subtitle.textContent;
+        typeWriter(subtitle, originalText, 80);
+      }
+    });
+
+    
+    window.addEventListener('scroll', function() {
+      const scrolled = window.pageYOffset;
+      const hero = document.querySelector('#home');
+      if (hero) {
+        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+    });
+
+    
+    document.querySelector('.profile-img')?.addEventListener('mouseenter', function() {
+      this.style.animation = 'pulse 0.6s ease-in-out';
+    });
+
+    document.querySelector('.profile-img')?.addEventListener('animationend', function() {
+      this.style.animation = '';
+    });
+
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+      link.addEventListener('click', function() {
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        if (navbarCollapse.classList.contains('show')) {
+          bootstrap.Collapse.getInstance(navbarCollapse).hide();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
